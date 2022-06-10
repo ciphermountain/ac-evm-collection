@@ -1,0 +1,47 @@
+Compiling your contracts...
+===========================
+> Everything is up to date, there is nothing to compile.
+
+
+Starting migrations...
+======================
+> Network name:    'mainnet'
+> Network id:      1
+> Block gas limit: 30000000 (0x1c9c380)
+
+
+2_deploy_erc721.js
+==================
+
+   Deploying 'ERC721EnumerablePausable'
+   ------------------------------------
+   > transaction hash:    0x9ffc31bbf143a760e6ce128df51a8ec770843a6f2dbaa6c5e43dd6e8ec01892c
+ *** Deployment Failed ***
+
+"ERC721EnumerablePausable" ran out of gas (using a value you set in your network config or deployment parameters.)
+   * Block limit:  30000000 (0x1c9c380)
+   * Gas sent:     6721975 (0x6691b7)
+
+
+Exiting: Review successful transactions manually by checking the transaction hashes above on Etherscan.
+
+
+Error:  *** Deployment Failed ***
+
+"ERC721EnumerablePausable" ran out of gas (using a value you set in your network config or deployment parameters.)
+   * Block limit:  30000000 (0x1c9c380)
+   * Gas sent:     6721975 (0x6691b7)
+
+    at /usr/local/lib/node_modules/truffle/build/webpack:/packages/deployer/src/deployment.js:379:1
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at Migration._deploy (/usr/local/lib/node_modules/truffle/build/webpack:/packages/migrate/Migration.js:68:1)
+    at Migration._load (/usr/local/lib/node_modules/truffle/build/webpack:/packages/migrate/Migration.js:54:1)
+    at Migration.run (/usr/local/lib/node_modules/truffle/build/webpack:/packages/migrate/Migration.js:202:1)
+    at Object.runMigrations (/usr/local/lib/node_modules/truffle/build/webpack:/packages/migrate/index.js:152:1)
+    at Object.runFrom (/usr/local/lib/node_modules/truffle/build/webpack:/packages/migrate/index.js:117:1)
+    at module.exports (/usr/local/lib/node_modules/truffle/build/webpack:/packages/core/lib/commands/migrate/runMigrations.js:5:1)
+    at Object.module.exports [as run] (/usr/local/lib/node_modules/truffle/build/webpack:/packages/core/lib/commands/migrate/run.js:41:1)
+    at Command.run (/usr/local/lib/node_modules/truffle/build/webpack:/packages/core/lib/command.js:189:1)
+Truffle v5.5.10 (core: 5.5.10)
+Node v16.13.0

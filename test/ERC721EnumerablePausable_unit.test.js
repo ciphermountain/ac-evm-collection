@@ -62,9 +62,9 @@ contract('ERC721EnumerablePausable_unit', (accounts) => {
     const result = await mintable.mint.estimateGas(accounts[0], 1);
     const large = await mintable.mint.estimateGas(accounts[1], 10);
     const maxGas = 105000;
-    const maxGasLarge = 710000;
+    const maxGasLarge = 740000;
 
-    assert(result < maxGas, 'gas should be minimal for minting');
-    assert(large < maxGasLarge, 'gas should be minimal for minting large sums');
+    assert(result < maxGas, `gas should be minimal for minting. expected ${maxGas}; got ${result}`);
+    assert(large < maxGasLarge, `gas should be minimal for minting large sums. expected ${maxGasLarge}; got ${large}`);
   });
 });

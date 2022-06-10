@@ -31,7 +31,7 @@ contract ERC721EnumerablePausable is ERC721, ERC2981, IStakeable, MinterPauserRo
         string memory name,
         string memory symbol,
         string memory baseTokenURI
-  ) CMTNERC721(name, symbol) {
+    ) ERC721(name, symbol) {
         _tokenIds.increment();
         _setupOwnerRoles(_msgSender());
         _setBaseURI(baseTokenURI);
@@ -65,7 +65,7 @@ contract ERC721EnumerablePausable is ERC721, ERC2981, IStakeable, MinterPauserRo
     /**
      * @dev See {IERC165-supportsInterface}.
      */
-    function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165, CMTNERC721, ERC2981, MinterPauserRole) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165, ERC721, ERC2981, MinterPauserRole) returns (bool) {
         return
             interfaceId == type(IERC721Enumerable).interfaceId || 
           super.supportsInterface(interfaceId);

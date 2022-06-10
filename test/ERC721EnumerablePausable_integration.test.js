@@ -240,49 +240,6 @@ contract('ERC721EnumerablePausable_integration', (accounts) => {
     }
   });
 
-  it('should burn tokens', async () => {
-    const tokensInstance = await GoatTokens.new("name", "symbol", "base");
-    const limit = accounts.length;
-
-    for (let i = 1; i < limit; i++) {
-      await tokensInstance.mint(accounts[i], 1)
-    }
-
-    for (let i = 1; i < limit; i++) {
-      await tokensInstance.burn(i, { from: accounts[i] })
-    }
-
-    for (let i = 1; i < limit; i++) {
-      try {
-        await tokensInstance.ownerOf.call(i);
-        assert(false, 'owner query should throw error')
-      } catch(error) {
-        assert(error.message.indexOf('nonexistent') >= 0, 'message should contain nonexistent')
-      }
-    }
-  });
-
-  it('should restrict burning to the owner or approved', async () => {
-    const tokensInstance = await GoatTokens.new("name", "symbol", "base");
-
-    const owner = accounts[1];
-    const notowner = accounts[2];
-
-    await tokensInstance.mint(owner, 2);
-
-    await tokensInstance.burn(1, { from: owner });
-
-    try {
-      await tokensInstance.burn(2, { from: notowner });
-      assert(false, 'should throw error')
-    } catch(error) {
-      assert(error.message.indexOf('not owner nor approved') >= 0, 'error message should include not owner nor approved')
-    }
-
-    await tokensInstance.approve(notowner, 2, { from: owner });
-    await tokensInstance.burn(2, { from: notowner });
-  });
-
   it('should stop minting when paused', async () => {
     const tokensInstance = await GoatTokens.new("name", "symbol", "/");
 
@@ -314,25 +271,6 @@ contract('ERC721EnumerablePausable_integration', (accounts) => {
       assert(error.message.indexOf('missing role') >= 0, 'error message must contain missing role');
     }
   })
-
-  it('should stop burning when paused', async () => {
-    const tokensInstance = await GoatTokens.new("name", "symbol", "/");
-
-    const success = accounts[1];
-
-    await tokensInstance.mint(success, 10)
-    await tokensInstance.pause();
-
-    try {
-      await tokensInstance.burn(4, { from: success })
-      assert(false, 'burn should throw error')
-    } catch(error) {
-      assert(error.message.indexOf('burned while contract is paused') >= 0, 'error message must contain burned while contract is paused');
-    }
-
-    await tokensInstance.unpause();
-    await tokensInstance.burn(4, { from: success })
-  });
 
   it('should stop transfers when paused', async () => {
     const tokensInstance = await GoatTokens.new("name", "symbol", "/");
@@ -431,31 +369,6 @@ contract('ERC721EnumerablePausable_integration', (accounts) => {
 
     await tokensInstance.grantRole(await tokensInstance.MINTER_ROLE(), staker)
     await tokensInstance.stake(3, { from: staker });
-  });
-
-  it('should stop burning when staked', async () => {
-    const tokensInstance = await GoatTokens.new("name", "symbol", "/");
-
-    const holder = accounts[1];
-    await tokensInstance.mint(holder, 20);
-
-    const owner = (await tokensInstance.ownerOf.call(13)).toString();
-    assert.equal(owner, holder, 'owner of random id should be holder');
-
-    const balance = (await tokensInstance.balanceOf.call(holder)).toNumber();
-    assert.equal(balance, 20, 'must have balance of 20');
- 
-    await tokensInstance.stake(13);
-
-    try {
-      await tokensInstance.burn(13, { from: holder });
-      assert(false, 'should throw an error')
-    } catch(error) {
-      assert(error.message.indexOf('must not be staked') >= 0, 'error message should contain must not be staked')
-    }
-
-    await tokensInstance.unstake(13);
-    await tokensInstance.burn(13, { from: holder });
   });
 
   it('should stop transfers when staked', async () => {
